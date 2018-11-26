@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = app => {
-  const { STRING, INTEGER, DATE, DOUBLE, ENUM, TEXT } = app.Sequelize;
+  const { STRING, INTEGER, DATE, DOUBLE, ENUM, TEXT, BOOLEAN } = app.Sequelize;
 
-  const GoodsReptileConfig = app.model.define('goodsReptileConfig', {
+  const GoodsReptileConfigs = app.model.define('goodsReptileConfigs', {
     id: {
       type: INTEGER,
       primaryKey: true,
@@ -18,6 +18,7 @@ module.exports = app => {
     lowest_price: DOUBLE, // 最低价格
     expect_price: DOUBLE, // 期望价格
     lowest_price_time: DATE, // 最低价出现时间
+    isPhone: BOOLEAN // 是否移动端
   });
-  return GoodsReptileConfig;
+  return GoodsReptileConfigs;
 };
