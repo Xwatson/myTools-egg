@@ -4,8 +4,10 @@
   "description": "mytools server",
   "private": true,
   "dependencies": {
+    "@types/puppeteer": "^1.10.0",
     "egg": "^2.2.1",
-    "egg-scripts": "^2.5.0"
+    "egg-scripts": "^2.5.0",
+    "puppeteer": "^1.10.0"
   },
   "devDependencies": {
     "autod": "^3.0.1",
