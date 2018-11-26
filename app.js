@@ -9,6 +9,6 @@ module.exports = app => {
     if (app.config.env === 'local') {
         await app.model.sync(); // { force: true }
     }
-    // await app.runSchedule('update_newMovies');
+    await app.runSchedule('reptile_price');
   });
 };
