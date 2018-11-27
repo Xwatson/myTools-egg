@@ -13,8 +13,14 @@ module.exports = app => {
     },
     name: STRING(255), // 名称
     site_name: STRING(255), // 站点名称
-    url: STRING(2000), // 地址
-    query_selector: STRING(255), // document选择器
+    url: { // 地址
+      type: STRING(2000),
+      allowNull: false
+    },
+    query_selector: { // document选择器
+      type: STRING(255),
+      allowNull: false
+    },
     current_price: DOUBLE, // 现在价格
     lowest_price: DOUBLE, // 最低价格
     expect_price: DOUBLE, // 期望价格
