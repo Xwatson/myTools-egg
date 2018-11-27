@@ -40,7 +40,7 @@ class GoodsReptileConfigsService extends Service {
           where,
           limit: size || 10, // 返回数据量
           offset: page - 1, // 数据偏移量
-          order: 'updatedAt DESC',
+          order: [ [ 'updated_at', 'DESC' ] ],
         });
     }
     /**
