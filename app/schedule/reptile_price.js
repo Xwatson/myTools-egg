@@ -39,11 +39,13 @@ class UpdatePrice extends Subscription {
             headless: false
         });
         try {
-            const pmAll = configs.map((item) => {
-                return this.openPage(browser, item);
-            });
-            const resultList = await Promise.all(pmAll);
-            console.log('所有结果：', resultList);
+            const sliceCount = 3;
+            // 分割数组，每次最多打开3个页面
+            for(let i = 0, len = configs.length; i < len; i += sliceCount ){
+                const _s = configs.slice(i,i + sliceCount);
+                const result = await Promise.all(_s.map((item) => this.openPage(browser, item)));
+                console.log('结果:', result)
+             }
             await browser.close();
             return true;
         } catch (error) {
@@ -54,7 +56,7 @@ class UpdatePrice extends Subscription {
     }
     async openPage(browser, config) {
         const page = await browser.newPage();
-        if (config.isPhone) {
+        if (config.is_phone) {
             await page.emulate(iPhone);
         }
         await page.goto(config.url);
@@ -73,10 +75,11 @@ class UpdatePrice extends Subscription {
         const _config = {
             id: config.id,
             name: config.name,
+            site_name: config.site_name,
             url: config.url,
             query_selector: config.query_selector,
             current_price: currentPrice,
-            isPhone: config.isPhone
+            is_phone: config.is_phone
         }
         _config.current_price = currentPrice;
         // 最低价大于现在的价格，设置现在价格为最低价
