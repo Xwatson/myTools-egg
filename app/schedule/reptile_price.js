@@ -33,6 +33,7 @@ class UpdatePrice extends Subscription {
     }
     // 启动查询
     async startSearch(configs = []) {
+        if (configs.length == 0) return true;
         console.log('启动chromium。');
         const browser = await puppeteer.launch({
             executablePath: path.resolve(__dirname, '../../chromium/chrome-win/chrome.exe'),
@@ -45,7 +46,7 @@ class UpdatePrice extends Subscription {
                 const _s = configs.slice(i,i + sliceCount);
                 const result = await Promise.all(_s.map((item) => this.openPage(browser, item)));
                 console.log('结果:', result)
-             }
+            }
             await browser.close();
             return true;
         } catch (error) {
@@ -56,17 +57,25 @@ class UpdatePrice extends Subscription {
     }
     async openPage(browser, config) {
         const page = await browser.newPage();
+
         if (config.is_phone) {
             await page.emulate(iPhone);
         }
         await page.goto(config.url);
+        const title = await page.title();
         const price = await page.evaluate((config) => {
             const currentPrice = (document.querySelector(config.query_selector) || {}).innerText;
             return {
                 currentPrice
             };
         }, config);
-        await this.updateData(config, parseFloat(price.currentPrice));
+        config.name = title;
+        const currentPrice = parseFloat(price.currentPrice)
+        if (!isNaN(currentPrice)) {
+            await this.updateData(config, currentPrice);
+        } else {
+            console.log(`${config.name}查询错误：${config.query_selector}`)
+        }
         console.log(config.name + '：', price);
         return price;
     }
