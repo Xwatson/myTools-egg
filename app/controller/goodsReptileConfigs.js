@@ -17,7 +17,15 @@ const reptileConfigRule = {
     query_selector: {
         type: 'string',
     },
+    vip_query_selector: {
+        type: 'string',
+        required: false,
+    },
     current_price: {
+        type: 'number',
+        required: false,
+    },
+    vip_price: {
         type: 'number',
         required: false,
     },
@@ -36,7 +44,23 @@ const reptileConfigRule = {
     is_phone: {
         type: 'boolean',
         required: true,
-    }
+    },
+    replace_str: {
+        type: 'string',
+        required: false,
+    },
+    vip_replace_str: {
+        type: 'string',
+        required: false,
+    },
+    code: {
+        type: 'int',
+        required: false,
+    },
+    message: {
+        type: 'string',
+        required: false,
+    },
 }
 
 class ReptileConfigController extends Controller {

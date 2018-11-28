@@ -21,11 +21,18 @@ module.exports = app => {
       type: STRING(255),
       allowNull: false
     },
+    vip_query_selector: STRING(255), // 会员document选择器
     current_price: DOUBLE, // 现在价格
+    vip_price: DOUBLE, // 会员价
     lowest_price: DOUBLE, // 最低价格
     expect_price: DOUBLE, // 期望价格
     lowest_price_time: DATE, // 最低价出现时间
-    is_phone: BOOLEAN // 是否移动端
+    is_phone: BOOLEAN, // 是否移动端
+    replace_str: STRING(255), // 替换字符
+    vip_replace_str: STRING(255), // vip价替换字符
+    code: INTEGER, // 查询错误码 0成功 1错误
+    message: STRING(500), // 错误信息
+
   });
   return GoodsReptileConfigs;
 };
