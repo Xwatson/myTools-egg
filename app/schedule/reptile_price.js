@@ -33,7 +33,10 @@ class UpdatePrice extends Subscription {
     }
     // 启动查询
     async startSearch(configs = []) {
-        if (configs.length == 0) return true;
+        if (configs.length == 0) {
+            console.log('未读取到配置，等待下次刷新.')
+            return true;
+        }
         console.log('启动chromium。');
         const browser = await puppeteer.launch({
             executablePath: path.resolve(__dirname, '../../chromium/chrome-win/chrome.exe'),
@@ -51,6 +54,7 @@ class UpdatePrice extends Subscription {
             return true;
         } catch (error) {
             console.log('puppeteer发生错误：', error);
+            this.ctx.logger.error('puppeteer发生错误：', error);
             await browser.close();
             return false;
         }
@@ -65,38 +69,68 @@ class UpdatePrice extends Subscription {
         const title = await page.title();
         const price = await page.evaluate((config) => {
             const currentPrice = (document.querySelector(config.query_selector) || {}).innerText;
+            const vipPrice = (document.querySelector(config.vip_query_selector) || {}).innerText;
             return {
-                currentPrice
+                currentPrice,
+                vipPrice
             };
         }, config);
         config.name = title;
-        const currentPrice = parseFloat(price.currentPrice)
-        if (!isNaN(currentPrice)) {
-            await this.updateData(config, currentPrice);
-        } else {
-            console.log(`${config.name}查询错误：${config.query_selector}`)
-        }
+        config.current_price = price.currentPrice;
+        config.vip_price = price.vipPrice
+        await this.updateData(config);
         console.log(config.name + '：', price);
         return price;
     }
     // 更新数据
-    async updateData(config, currentPrice) {
+    async updateData(config) {
         const _config = {
             id: config.id,
             name: config.name,
             site_name: config.site_name,
             url: config.url,
             query_selector: config.query_selector,
-            current_price: currentPrice,
-            is_phone: config.is_phone
+            vip_query_selector: config.vip_query_selector,
+            expect_price: config.expect_price,
+            is_phone: config.is_phone,
+            replace_str: config.replace_str,
+            vip_replace_str: config.vip_replace_str,
+            code: 0,
+            message: ''
         }
-        _config.current_price = currentPrice;
-        // 最低价大于现在的价格，设置现在价格为最低价
-        if (_config.lowest_price > currentPrice || _config.lowest_price == null) {
-            _config.lowest_price = currentPrice;
-            _config.lowest_price_time = this.ctx.app.formatToDayTime(Date.now());
-        }
+        this.setConfigPriceField(config, _config, 'current_price', 'replace_str');
+        this.setConfigPriceField(config, _config, 'vip_price', 'vip_replace_str');
         return await this.ctx.service.goodsReptileConfigs.update(_config);
+    }
+    setConfigPriceField(config, targetConfig, priceField, replaceFiled) {
+        const price = parseFloat((config[priceField] || '').replace(config[replaceFiled] || '', ''));
+        if (!isNaN(price)) {
+            targetConfig[priceField] = price;
+            // 最低价大于目标价格，设置现在价格为最低价
+            if (targetConfig.lowest_price > price || targetConfig.lowest_price == null) {
+                targetConfig.lowest_price = price;
+                targetConfig.lowest_price_time = this.ctx.app.formatToDayTime(Date.now());
+            }
+        } else if (typeof config[priceField] === 'undefined'){
+            const _str = `获取${priceField}发生错误：${config.name}选择器错误。`;
+            targetConfig.message += _str;
+            // 只对当前价做状态码更新
+            if (priceField == 'current_price') {
+                targetConfig.code = 1;
+            }
+            console.log(_str);
+            this.ctx.logger.error(_str);
+        } else {
+            const _str = `获取${priceField}发生错误：${config.name}字符错误：${config[priceField]}。`;
+            targetConfig.message += _str;
+            // 只对当前价做状态码更新
+            if (priceField == 'current_price') {
+                targetConfig.code = 1;
+            }
+            console.log(_str);
+            this.ctx.logger.error(_str);
+        }
+        return targetConfig;
     }
 }
 
