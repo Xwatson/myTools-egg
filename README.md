@@ -10,7 +10,7 @@ mytools server
 
 > * 解决
 > > 跳过Chromium 下载，使用npm i puppeteer --ignore-scripts
-> > 手动下载Chromium，[下载地址](:https://download-chromium.appspot.com)（需翻墙）
+> > 手动下载Chromium，[下载地址](https://download-chromium.appspot.com)（需翻墙）
 > * 在目录创建chromium文件夹，解压对应系统文件放入此文件夹下
 > * 配置chromium路径
 >>> ```executablePath: './chromium/chrome-win/chrome.exe'```
