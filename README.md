@@ -9,8 +9,8 @@ mytools server
 > >ERROR: Failed to download Chromium r515411! Set "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" env variable to skip download.
 
 > * 解决
-> > 跳过Chromium 下载，使用npm i puppeteer --ignore-scripts
-> > 手动下载Chromium，[下载地址](https://download-chromium.appspot.com)（需翻墙）
+> > 跳过Chromium 下载，使用npm i puppeteer --ignore-scripts  
+> > 然后手动下载Chromium，[下载地址](https://download-chromium.appspot.com)（需翻墙）
 > * 在目录创建chromium文件夹，解压对应系统文件放入此文件夹下
 > * 在启动puppeteer.launch中需配置路径，如Windows中
 >>> ```executablePath: './chromium/chrome-win/chrome.exe'```
