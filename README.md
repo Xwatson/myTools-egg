@@ -12,9 +12,9 @@ mytools server
 > > 跳过Chromium 下载，使用npm i puppeteer --ignore-scripts
 > > 手动下载Chromium，[下载地址](https://download-chromium.appspot.com)（需翻墙）
 > * 在目录创建chromium文件夹，解压对应系统文件放入此文件夹下
-> * 配置chromium路径
+> * 在启动puppeteer.launch中需配置路径，如Windows中
 >>> ```executablePath: './chromium/chrome-win/chrome.exe'```
-
+> ### 如未遇到下载错误则无需配置executablePath
 <!-- add docs here for user -->
 
 see [egg docs][egg] for more detail.
