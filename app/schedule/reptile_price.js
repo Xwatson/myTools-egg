@@ -19,6 +19,13 @@ class UpdatePrice extends Subscription {
 
     // subscribe 是真正定时任务执行时被运行的函数
     async subscribe() {
+        /* const test = await this.ctx.pushNotifyMessage(['xwatson'], {
+            title: '项目测试',
+            content: '开发环境测试。xwatson',
+            custom_content: {
+                key1: 'value1'
+            },
+        }) */
         // 获取配置数据
         const configs = await this.ctx.service.goodsReptileConfigs.getAll();
         const interval = Math.random() * 5000 + 5000;
