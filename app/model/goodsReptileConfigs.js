@@ -13,6 +13,8 @@ module.exports = app => {
     },
     name: STRING(255), // 名称
     site_name: STRING(255), // 站点名称
+    image_url: STRING(1000), // 图片地址
+    image_selector: STRING(255), // 图片选择器
     url: { // 地址
       type: STRING(2000),
       allowNull: false

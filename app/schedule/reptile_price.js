@@ -28,7 +28,7 @@ class UpdatePrice extends Subscription {
         }) */
         // 获取配置数据
         const configs = await this.ctx.service.goodsReptileConfigs.getAll();
-        const interval = Math.random() * 5000 + 5000;
+        const interval = Math.random() * 10000 + 20000;
         console.log('下次启动时间: ', interval + 'ms');
         this.searchTimer = setTimeout(async () => {
             if (await this.startSearch(configs)) {
@@ -77,14 +77,17 @@ class UpdatePrice extends Subscription {
         const price = await page.evaluate((config) => {
             const currentPrice = (document.querySelector(config.query_selector) || {}).innerText;
             const vipPrice = (document.querySelector(config.vip_query_selector) || {}).innerText;
+            const image = (document.querySelector(config.image_selector) || {}).src;
             return {
                 currentPrice,
-                vipPrice
+                vipPrice,
+                image
             };
         }, config);
         config.name = title;
         config.current_price = price.currentPrice;
-        config.vip_price = price.vipPrice
+        config.vip_price = price.vipPrice;
+        config.image_url = price.image_url;
         await this.updateData(config);
         console.log(config.name + '：', price);
         return price;
@@ -95,6 +98,8 @@ class UpdatePrice extends Subscription {
             id: config.id,
             name: config.name,
             site_name: config.site_name,
+            image_url: config.image_url,
+            image_selector: config.image_selector,
             url: config.url,
             query_selector: config.query_selector,
             vip_query_selector: config.vip_query_selector,

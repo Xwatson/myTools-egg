@@ -11,6 +11,13 @@ const reptileConfigRule = {
         type: 'string',
         required: false,
     },
+    image_url: {
+        type: 'string',
+        required: false,
+    },
+    image_selector: {
+        type: 'string',
+    },
     url: {
         type: 'string',
     },
