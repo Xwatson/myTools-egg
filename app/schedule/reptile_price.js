@@ -28,7 +28,7 @@ class UpdatePrice extends Subscription {
         }) */
         // 获取配置数据
         const configs = await this.ctx.service.goodsReptileConfigs.getAll({ status: 'ENABLE' });
-        const interval = Math.random() * 10000 + 20000;
+        const interval = Math.random() * 10000 * 3;
         console.log('下次启动时间: ', interval + 'ms');
         this.searchTimer = setTimeout(async () => {
             if (await this.startSearch(configs)) {
