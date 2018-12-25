@@ -46,8 +46,8 @@ class UpdatePrice extends Subscription {
         }
         console.log('启动chromium。');
         const browser = await puppeteer.launch({
-            executablePath: path.resolve(__dirname, '../../chromium/chrome-win/chrome.exe'),
-            headless: false
+            // executablePath: path.resolve(__dirname, '../../chromium/chrome-win/chrome.exe'),
+            // headless: false
         });
         try {
             const sliceCount = 3;
@@ -87,7 +87,7 @@ class UpdatePrice extends Subscription {
         config.name = title;
         config.current_price = price.currentPrice;
         config.vip_price = price.vipPrice;
-        config.image_url = price.image_url;
+        config.image_url = price.image;
         await this.updateData(config);
         console.log(config.name + '：', price);
         return price;
@@ -108,7 +108,8 @@ class UpdatePrice extends Subscription {
             replace_str: config.replace_str,
             vip_replace_str: config.vip_replace_str,
             code: 0,
-            message: ''
+            message: '',
+            status: config.status
         }
         this.setConfigPriceField(config, _config, 'current_price', 'replace_str');
         this.setConfigPriceField(config, _config, 'vip_price', 'vip_replace_str');
