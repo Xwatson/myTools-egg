@@ -34,7 +34,11 @@ module.exports = app => {
     vip_replace_str: STRING(255), // vip价替换字符
     code: INTEGER, // 查询错误码 0成功 1错误
     message: STRING(500), // 错误信息
-
+    status: { // 状态
+      type: ENUM,
+      allowNull: false,
+      values: [ 'ENABLE', 'DISABLE' ], // 启用，禁用
+    },
   });
   return GoodsReptileConfigs;
 };
