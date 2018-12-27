@@ -72,6 +72,16 @@ const reptileConfigRule = {
 
 class ReptileConfigController extends Controller {
 
+    async get() {
+        const { ctx, service } = this;
+        try {
+            const res = await service.goodsReptileConfigs.getConfigById(ctx.params.id);
+            this.success(res);
+        } catch (err) {
+            this.fail(ctx.UNIQUE_CODE, this.formatValidateError(err));
+        }
+    }
+
     async create() {
         const { ctx, service } = this;
         try {
