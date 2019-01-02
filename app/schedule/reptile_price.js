@@ -125,7 +125,7 @@ class UpdatePrice extends Subscription {
                 targetConfig.lowest_price_time = this.ctx.app.formatToDayTime(Date.now());
             }
         } else if (typeof config[priceField] === 'undefined'){
-            const _str = `获取${priceField}发生错误：${config.name}选择器错误。`;
+            const _str = `获取${priceField}发生错误：选择器错误。`;
             targetConfig.message += _str;
             // 只对当前价做状态码更新
             if (priceField == 'current_price') {
@@ -134,7 +134,7 @@ class UpdatePrice extends Subscription {
             console.log(_str);
             this.ctx.logger.error(_str);
         } else {
-            const _str = `获取${priceField}发生错误：${config.name}字符错误：${config[priceField]}。`;
+            const _str = `获取${priceField}发生错误：字符错误：${config[priceField]}。`;
             targetConfig.message += _str;
             // 只对当前价做状态码更新
             if (priceField == 'current_price') {
