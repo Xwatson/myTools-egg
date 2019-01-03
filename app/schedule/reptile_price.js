@@ -109,7 +109,7 @@ class UpdatePrice extends Subscription {
             vip_replace_str: config.vip_replace_str,
             code: 0,
             message: '',
-            status: config.status
+            // status: config.status
         }
         this.setConfigPriceField(config, _config, 'current_price', 'replace_str');
         this.setConfigPriceField(config, _config, 'vip_price', 'vip_replace_str');
