@@ -45,7 +45,7 @@ const reptileConfigRule = {
         required: false,
     },
     lowest_price_time: {
-        type: 'date',
+        type: 'string',
         required: false,
     },
     is_phone: {
@@ -98,6 +98,7 @@ class ReptileConfigController extends Controller {
         reptileConfigRule.id = {
             type: 'int',
         }
+        console.log('的方法', ctx.request.body)
         try {
             ctx.validate(reptileConfigRule);
             const res = await service.goodsReptileConfigs.update(ctx.request.body);
